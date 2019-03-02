@@ -23,7 +23,12 @@ class Home extends Component {
     }
 
     componentDidMount() {
+        const { user } = this.props;
         this.props.navigation.setParams({ openDrawer: this.openDrawer });
+
+        if (user.isNew) {
+            this.props.navigation.navigate("EditProfile");
+        }
     }
 
     openDrawer = () => {

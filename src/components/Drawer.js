@@ -5,7 +5,7 @@ import { bindActionCreators } from 'redux';
 import { Button } from 'native-base';
 import { NavigationActions } from 'react-navigation';
 
-import { setUser } from '../redux/auth/action';
+import { removeUser } from '../redux/auth/action';
 
 import GeneralStyles from '../screens/GeneralStyles';
 import variables from '../config/variables';
@@ -17,6 +17,13 @@ class Drawer extends Component {
         });
         this.props.navigation.dispatch(navigateAction);
     };
+
+    logout = () => {
+        const { removeUser } = this.props;
+
+        removeUser();
+        this.props.navigation.navigate("Login");
+    }
 
     render() {
         const { user } = this.props;
@@ -34,6 +41,9 @@ class Drawer extends Component {
                     </Button>
                     <Button onPress={this.navigateToScreen.bind(this, "EditProfile")} light block>
                         <Text>Edit Profile</Text>
+                    </Button>
+                    <Button onPress={this.logout} light block>
+                        <Text>Log out</Text>
                     </Button>
                 </View>
             </View >
@@ -61,7 +71,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) =>
     bindActionCreators({
-        setUser
+        removeUser
     }, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(Drawer);
