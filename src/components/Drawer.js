@@ -32,6 +32,9 @@ class Drawer extends Component {
                     <Button onPress={this.navigateToScreen.bind(this, "Home")} light block>
                         <Text>Home</Text>
                     </Button>
+                    <Button onPress={this.navigateToScreen.bind(this, "EditProfile")} light block>
+                        <Text>Edit Profile</Text>
+                    </Button>
                 </View>
             </View >
         )

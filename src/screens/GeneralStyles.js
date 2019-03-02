@@ -18,6 +18,9 @@ export default StyleSheet.create({
     justifyContentEnd: {
         justifyContent: "flex-end"
     },
+    alignItemsCenter: {
+        alignItems: "center"
+    },
     mediumPaddingBottom: {
         paddingBottom: variables.MEDIUM_PADDING_VERTICAL
     },
@@ -33,5 +36,13 @@ export default StyleSheet.create({
     },
     smallText: {
         fontSize: variables.SMALL_TEXT
+    },
+    smallMarginY: {
+        marginTop: variables.SMALL_MARGIN_VERTICAL,
+        marginBottom: variables.SMALL_MARGIN_VERTICAL,
+    },
+    smallPaddingY: {
+        marginTop: variables.SMALL_PADDING_VERTICAL,
+        marginBottom: variables.SMALL_PADDING_VERTICAL,
     }
 })

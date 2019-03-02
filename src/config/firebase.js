@@ -1,6 +1,9 @@
 import firebaseLib from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/firestore';
+import 'firebase/storage';
+
+import helpers from './helpers';
 
 import keys from './keys';
 
@@ -48,7 +51,59 @@ const createUser = async (data) => {
     }
 }
 
+const updateDocument = async (collection, document, data, merge) => {
+    return firebaseLib.firestore().collection(collection).doc(document).set(data, { merge });
+}
+
+const addDocument = async (collection, data) => {
+    return firebaseLib.firestore().collection(collection).add(data)
+}
+
+const uploadImage = async (uri, uid, type) => {
+    const format = helpers.extractFormatFromImageURI(uri);
+
+    try {
+        const blob = await helpers.makeBlobFromURI(uri);
+        let path = `users/${uid}/${Date.now()}.${format}`;
+
+        if (type === "service") {
+            path = `users/${uid}/services/${Date.now()}.${format}`;
+        }
+
+        const documentRef = firebaseLib.storage().ref().child(path);
+
+        await documentRef.put(blob);
+        const url = await documentRef.getDownloadURL();
+
+        return url;
+    }
+    catch (e) {
+        throw e;
+    }
+}
+
+const readCollection = async (collection) => {
+    return firebaseLib.firestore().collection(collection).get();
+}
+
+const readDocument = async (collection, document, returnType) => {
+    if (returnType === "data") {
+        const response = await firebaseLib.firestore().collection(collection).doc(document).get();
+
+        return response.data();
+    }
+    else {
+        return firebaseLib.firestore().collection(collection).doc(document).get();
+    }
+}
+
+
 export default {
     loginWithFacebook,
-    createUser
+    createUser,
+    updateDocument,
+    addDocument,
+    uploadImage,
+    readCollection,
+    readDocument
 }
