@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
-import { Text, View, ImageBackground } from 'react-native'
-import { Button, Icon } from 'native-base';
+import { Text, View, Image, TouchableOpacity } from 'react-native'
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
@@ -9,6 +8,28 @@ import { setUser } from '../../redux/auth/action';
 import GeneralStyles from '../GeneralStyles';
 
 class Home extends Component {
+    static navigationOptions = ({ navigation }) => {
+        return {
+            headerTitle: "Home",
+            headerLeft: (
+                <TouchableOpacity style={{ marginLeft: 10 }} onPress={navigation.getParam('openDrawer')}>
+                    <Image
+                        source={require("../../assets/menu-icon.png")}
+                        style={{ width: 30, height: 30 }}
+                    />
+                </TouchableOpacity>
+            ),
+        };
+    }
+
+    componentDidMount() {
+        this.props.navigation.setParams({ openDrawer: this.openDrawer });
+    }
+
+    openDrawer = () => {
+        this.props.navigation.openDrawer();
+    }
+
     render() {
         return (
             <View style={[GeneralStyles.container]}>
