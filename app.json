@@ -10,9 +10,9 @@
     ],
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/app-icon.png",
+    "icon": "./src/assets/app-icon.png",
     "splash": {
-      "image": "./assets/main-splash.png",
+      "image": "./src/assets/main-splash.png",
       "resizeMode": "cover"
     },
     "updates": {
