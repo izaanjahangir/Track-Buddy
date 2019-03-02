@@ -7,19 +7,9 @@ import Login from '../screens/Login/Login';
 import Drawer from './drawerNavigator';
 
 const AppNavigator = createSwitchNavigator({
-    Login: {
-        screen: Login
-    },
-    Drawer: {
-        screen: Drawer
-    },
-}, {
-        defaultNavigationOptions: {
-            headerStyle: {
-                backgroundColor: "red"
-            }
-        }
-    });
+    Login: Login,
+    Drawer: Drawer
+});
 
 const AppContainer = createAppContainer(AppNavigator);
 
