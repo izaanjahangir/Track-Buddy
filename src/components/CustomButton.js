@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import { Text, View } from 'react-native'
-
 import { Button } from 'native-base';
+
+import GeneralStyles from '../screens/GeneralStyles';
 
 export default class CustomButton extends Component {
     render() {
@@ -9,7 +10,7 @@ export default class CustomButton extends Component {
 
         return (
             <Button onPress={onPress} primary block>
-                <Text>{text}</Text>
+                <Text style={GeneralStyles.textWhite}>{text}</Text>
             </Button>
         )
     }

@@ -50,7 +50,6 @@ class AddMembers extends Component {
                 { text: 'Ok', onPress: () => this.props.navigation.navigate("Home") },
             ])
         } catch (e) {
-            console.log("addMember")
             alert(e.message);
             this.setState({ isLoading: false });
         }
@@ -65,9 +64,9 @@ class AddMembers extends Component {
             <View style={GeneralStyles.flexFull}>
                 <View style={GeneralStyles.container}>
                     <Content style={{ marginTop: 50 }}>
-                        <Text>Enter phone number to add member:</Text>
-                        <Text style={GeneralStyles.textCenter}>Circle Code: {selectedCircle.code}</Text>
-                        <Text style={GeneralStyles.textCenter}>Circle: {selectedCircle.circleName}</Text>
+                        <Text>Enter phone number to send invite:</Text>
+                        <Text style={[GeneralStyles.textCenter, GeneralStyles.smallMarginY, GeneralStyles.smallText]}>Circle: {selectedCircle.circleName}</Text>
+                        <Text style={[GeneralStyles.textCenter, GeneralStyles.smallMarginY, GeneralStyles.smallText]}>Circle Code: {selectedCircle.code}</Text>
                         <Item regular style={GeneralStyles.smallMarginY}>
                             <Input keyboardType="numeric" placeholder='Enter phone number' value={phoneNumber} onChangeText={(phoneNumber) => this.setState({ phoneNumber })} />
                         </Item>
