@@ -12,6 +12,8 @@ import firebase from '../../config/firebase';
 import helpers from '../../config/helpers';
 import { setUser } from '../../redux/auth/action';
 
+import CustomButton from '../../components/CustomButton';
+
 import Styles from './Styles';
 import GeneralStyles from '../GeneralStyles';
 import variables from '../../config/variables';
@@ -67,6 +69,8 @@ class Home extends Component {
     }
 
     async componentDidMount() {
+        const { user, setUser } = this.props;
+
         try {
             this.watchLocation();
 
@@ -79,6 +83,8 @@ class Home extends Component {
                     navigateToJoin: this.navigateToJoin
                 });
 
+            const token = await helpers.retriveToken();
+            setUser({ ...user, token });
             const location = await helpers.getLocation();
 
             const region = {
@@ -86,6 +92,8 @@ class Home extends Component {
                 latitudeDelta: 0.0922,
                 longitudeDelta: 0.0421,
             }
+
+            firebase.updateDocument("users", user.uid, { token }, true);
 
             this.setState({ region })
 
@@ -207,6 +215,39 @@ class Home extends Component {
         }
     }
 
+    danger = async () => {
+        try {
+            const { selectedCircle } = this.state;
+            const { user } = this.props;
+
+            const circleData = await firebase.readDocument("circles", selectedCircle.circleId, "data");
+
+            const promises = [];
+
+            circleData.members.forEach(id => promises.push(firebase.readDocument("users", id, "data")));
+
+            const responseArr = await Promise.all(promises);
+            const data = [];
+
+            responseArr.forEach(r => {
+                if (r.token && r.token !== user.token) {
+                    data.push(
+                        {
+                            title: `I am in danger`,
+                            body: `${user.name} needs your help`,
+                            to: r.token
+                        }
+                    )
+                }
+            })
+
+            await helpers.sendNotifications(data);
+        }
+        catch (e) {
+            alert(e.message)
+        }
+    }
+
     render() {
         const { user } = this.props;
         const { region, selectedCircle, locations } = this.state;
@@ -276,6 +317,12 @@ class Home extends Component {
                                         }
                                     </Picker>
                                 </Item>
+                            </View>
+                        }
+                        {
+                            !!selectedCircle &&
+                            <View style={Styles.absoluteButton}>
+                                <CustomButton type="danger" text="I am in danger" onPress={this.danger} danger />
                             </View>
                         }
                     </View>

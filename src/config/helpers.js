@@ -1,5 +1,5 @@
 import { Toast } from 'native-base';
-import { Location, Permissions } from 'expo';
+import { Location, Permissions, Notifications } from 'expo';
 const randomHex = require('crypto-random-hex');
 
 const showToast = (text, buttonText, type, duration = 3000) => {
@@ -46,6 +46,34 @@ const getLocation = async () => {
     }
 }
 
+const retriveToken = async () => {
+    try {
+        const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
+        finalStatus = status;
+
+        if (finalStatus !== 'granted') {
+            throw { message: "We need your permission" };
+        }
+
+        let token = await Notifications.getExpoPushTokenAsync();
+
+        return token
+    } catch (e) {
+        throw 3;
+    }
+}
+
+const sendNotifications = (data) => {
+    return fetch("https://exp.host/--/api/v2/push/send", {
+        method: 'POST',
+        headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+    });
+}
+
 const createRandomString = () => {
     return Math.random().toString(36).substring(7);
 }
@@ -67,5 +95,7 @@ export default {
     extractFormatFromImageURI,
     getLocation,
     createRandomString,
-    sendMessage
+    sendMessage,
+    retriveToken,
+    sendNotifications
 }

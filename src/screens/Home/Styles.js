@@ -12,5 +12,12 @@ export default StyleSheet.create({
         borderWidth: 0.5,
         width: variables.WINDOW_WIDTH * 0.9,
         backgroundColor: "white"
+    },
+    absoluteButton: {
+        position: "absolute",
+        bottom: 10,
+        alignSelf: "center",
+        // paddingHorizontal: 5,
+        width: variables.WINDOW_WIDTH * 0.9,
     }
 })

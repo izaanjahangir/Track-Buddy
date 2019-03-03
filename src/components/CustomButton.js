@@ -6,12 +6,21 @@ import GeneralStyles from '../screens/GeneralStyles';
 
 export default class CustomButton extends Component {
     render() {
-        const { text, onPress } = this.props;
+        const { text, onPress, type } = this.props;
 
-        return (
-            <Button onPress={onPress} primary block>
-                <Text style={GeneralStyles.textWhite}>{text}</Text>
-            </Button>
-        )
+        if(type !== "danger"){
+            return (
+                <Button onPress={onPress} primary block>
+                    <Text style={GeneralStyles.textWhite}>{text}</Text>
+                </Button>
+            )
+        }
+        else{
+            return (
+                <Button onPress={onPress} danger block>
+                    <Text style={GeneralStyles.textWhite}>{text}</Text>
+                </Button>
+            )
+        }
     }
 }
