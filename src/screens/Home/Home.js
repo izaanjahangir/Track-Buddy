@@ -101,7 +101,7 @@ class Home extends Component {
 
     watchLocation = async () => {
         const { user } = this.props;
-        
+
         try {
             this.interval = setInterval(async () => {
                 const location = await helpers.getLocation();
@@ -115,10 +115,6 @@ class Home extends Component {
         } catch (e) {
             alert(e.message);
         }
-    }
-
-    getLiveLocation = (location) => {
-        console.log("live location =>", location)
     }
 
     openDrawer = () => {
@@ -168,6 +164,12 @@ class Home extends Component {
         this.setState({
             selectedCircle: value
         });
+    }
+
+    componentWillUnmount() {
+        if (this.listener) {
+            clearInterval(this.listener)
+        }
     }
 
     getCircle = async (circleId) => {
@@ -223,12 +225,38 @@ class Home extends Component {
                                 <Marker
                                     coordinate={{ latitude: marker.latitude, longitude: marker.longitude }}
                                     title={marker.user.name}
-                                    description={marker.user.email}
-                                />
+                                    flat={true}
+                                    style={{ width: 60, height: 60 }}
+                                    key={Math.random().toString()}
+                                >
+                                    <View
+                                        style={{
+                                            width: 60,
+                                            height: 60,
+                                            justifyContent: "center",
+                                            alignItems: "center"
+                                        }}
+                                    >
+                                        <Image
+                                            source={require("../../assets/favorite.png")}
+                                            style={{ width: 50, height: 50 }}
+                                        />
+                                        <View style={{ position: "absolute", top: 10 }}>
+                                            <Image
+                                                source={{ uri: marker.user.profilePicture }}
+                                                style={{
+                                                    width: 30,
+                                                    height: 30,
+                                                    borderRadius: 1000
+                                                }}
+                                            />
+                                        </View>
+                                    </View>
+                                </Marker>
                             ))}
                         </MapView>
                         {
-                            !!user.circles.length &&
+                            user.circles && !!user.circles.length &&
                             <View style={[Styles.picker]}>
                                 <Item picker>
                                     <Picker

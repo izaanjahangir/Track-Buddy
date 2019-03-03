@@ -22,7 +22,8 @@ const loginWithFacebook = async (token) => {
             firstName: response.additionalUserInfo.profile.first_name,
             lastName: response.additionalUserInfo.profile.last_name,
             facebookId: response.additionalUserInfo.profile.id,
-            profilePicture: `${response.user.photoURL}?type=large`
+            profilePicture: `${response.user.photoURL}?type=large`,
+            circles: []
         }
 
         const userData = await createUser(user);

@@ -41,8 +41,8 @@ class Drawer extends Component {
                             <Text>Home</Text>
                         </TouchableOpacity>
                     </View>
-                    <View onPress={this.navigateToScreen.bind(this, "EditProfile")} style={GeneralStyles.flexRow}>
-                        <TouchableOpacity style={GeneralStyles.fullWidthBtn}>
+                    <View style={GeneralStyles.flexRow}>
+                        <TouchableOpacity onPress={this.navigateToScreen.bind(this, "EditProfile")} style={GeneralStyles.fullWidthBtn}>
                             <Text>Edit Profile</Text>
                         </TouchableOpacity>
                     </View>
@@ -51,16 +51,6 @@ class Drawer extends Component {
                             <Text>Log out</Text>
                         </TouchableOpacity>
                     </View>
-
-                    {/* <Button onPress={this.navigateToScreen.bind(this, "Home")} light block>
-                        <Text>Home</Text>
-                    </Button>
-                    <Button onPress={this.navigateToScreen.bind(this, "EditProfile")} light block>
-                        <Text>Edit Profile</Text>
-                    </Button>
-                    <Button onPress={this.logout} light block>
-                        <Text>Log out</Text>
-                    </Button> */}
                 </View>
             </View >
         )
