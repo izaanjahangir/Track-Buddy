@@ -8,6 +8,9 @@ export default StyleSheet.create({
         paddingHorizontal: variables.WINDOW_WIDTH * 0.05,
         flex: 1
     },
+    containerPadding: {
+        paddingHorizontal: variables.WINDOW_WIDTH * 0.05,
+    },
     flexFull: {
         flex: 1
     },

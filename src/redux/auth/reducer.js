@@ -1,5 +1,6 @@
 const initialState = {
     user: null,
+    circles: null
 };
 
 const reducer = (state = initialState, action) => {

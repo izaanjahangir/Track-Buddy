@@ -42,13 +42,14 @@ class CreateCircle extends Component {
         const { user, setUser } = this.props;
         let prevCircles = user.circles || [];
 
-
         try {
             this.setState({ isLoading: true });
             const code = helpers.createRandomString();
 
             const data = {
-                members: [],
+                members: [
+                    user.uid
+                ],
                 admins: [
                     user.uid
                 ],
@@ -59,9 +60,9 @@ class CreateCircle extends Component {
             }
 
             const response = await firebase.addDocument("circles", data);
-
-            await firebase.updateUserCircle(user.uid, response.id);
-            prevCircles.push(response.id);
+            const newCircle = { circleName, code, circleId: response.id };
+            await firebase.updateUserCircle(user.uid, newCircle);
+            prevCircles.push(newCircle);
 
             setUser({ ...user, circles: prevCircles });
 
@@ -109,7 +110,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) =>
     bindActionCreators({
-        setUser
+        setUser,
     }, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(CreateCircle);

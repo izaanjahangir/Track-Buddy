@@ -55,12 +55,12 @@ const updateDocument = async (collection, document, data, merge) => {
     return firebaseLib.firestore().collection(collection).doc(document).set(data, { merge });
 }
 
-const updateUserCircle = async (document, circleId) => {
+const updateUserCircle = async (document, data) => {
     return firebaseLib.firestore()
         .collection("users")
         .doc(document)
         .set(
-            { circles: firebaseLib.firestore.FieldValue.arrayUnion(circleId) },
+            { circles: firebaseLib.firestore.FieldValue.arrayUnion(data) },
             { merge: true }
         );
 }
@@ -115,5 +115,5 @@ export default {
     addDocument,
     uploadImage,
     readCollection,
-    readDocument
+    readDocument,
 }

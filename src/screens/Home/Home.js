@@ -3,11 +3,15 @@ import { Text, View, Image, TouchableOpacity } from 'react-native'
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import MapView from 'react-native-maps';
+import { Container, Header, Content, Form, Item, Picker } from 'native-base';
 
+import firebase from '../../config/firebase';
 import helpers from '../../config/helpers';
 import { setUser } from '../../redux/auth/action';
 
+import Styles from './Styles';
 import GeneralStyles from '../GeneralStyles';
+import variables from '../../config/variables';
 
 class Home extends Component {
     constructor() {
@@ -72,18 +76,49 @@ class Home extends Component {
         this.props.navigation.navigate("CreateCircle")
     }
 
+    onValueChange2(value) {
+        this.setState({
+            selected2: value
+        });
+    }
+
     render() {
+        const { user } = this.props;
         const { region } = this.state;
 
         return (
             <View style={GeneralStyles.flexFull}>
                 {
                     region &&
-                    <MapView
-                        style={GeneralStyles.flexFull}
-                        initialRegion={this.state.region}
-                        showsUserLocation
-                    />
+                    <View style={[GeneralStyles.flexFull, { position: 'relative' }]}>
+                        <MapView
+                            style={GeneralStyles.flexFull}
+                            initialRegion={this.state.region}
+                            showsUserLocation
+                        />
+                        {
+                            !!user.circles.length &&
+                            <View style={[Styles.picker]}>
+                                <Item picker>
+                                    <Picker
+                                        mode="dropdown"
+                                        style={{ width: undefined }}
+                                        placeholderIconColor="#007aff"
+                                        selectedValue={this.state.selected2}
+                                        onValueChange={this.onValueChange2.bind(this)}
+                                    >
+                                        {
+                                            user.circles.map(c => {
+                                                return (
+                                                    <Picker.Item label={c.circleName} value={c.circleId} />
+                                                )
+                                            })
+                                        }
+                                    </Picker>
+                                </Item>
+                            </View>
+                        }
+                    </View>
                 }
             </View>
         )
