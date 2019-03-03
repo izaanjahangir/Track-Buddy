@@ -29,13 +29,21 @@ class Home extends Component {
                     />
                 </TouchableOpacity>
             ),
+            headerRight: (
+                <TouchableOpacity style={{ marginRight: 10 }} onPress={navigation.getParam('navigateToCreateCircle')}>
+                    <Image
+                        source={require("../../assets/add.png")}
+                        style={{ width: 30, height: 30 }}
+                    />
+                </TouchableOpacity>
+            ),
         };
     }
 
     async componentDidMount() {
         try {
             const { user } = this.props;
-            this.props.navigation.setParams({ openDrawer: this.openDrawer });
+            this.props.navigation.setParams({ openDrawer: this.openDrawer, navigateToCreateCircle: this.navigateToCreateCircle });
 
             const location = await helpers.getLocation();
 
@@ -58,6 +66,10 @@ class Home extends Component {
 
     openDrawer = () => {
         this.props.navigation.openDrawer();
+    }
+
+    navigateToCreateCircle = () => {
+        this.props.navigation.navigate("CreateCircle")
     }
 
     render() {
