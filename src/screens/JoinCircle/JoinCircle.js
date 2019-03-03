@@ -57,7 +57,7 @@ class JoinCircle extends Component {
                 const promises = [
                     firebase.updateDocument("users", user.uid, { circles: prevCircles }, true),
                     firebase.updateDocument("circles", responseData.circleId, { members }, true),
-                    firebase.updateLocationCircle(responseData.circleId, user.uid, { ...location, timeStamp: Date.now() }),
+                    firebase.updateLocationCircle(responseData.circleId, user.uid, { ...location, timeStamp: Date.now(), user: { name: user.name, profilePicture: user.profilePicture, uid: user.uid, email: user.email } }),
                 ];
 
                 await Promise.all(promises);

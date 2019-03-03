@@ -1,9 +1,12 @@
 import React, { Component } from 'react'
-import { Text, View, Image, TouchableOpacity } from 'react-native'
+import { Text, View, Image, TouchableOpacity } from 'react-native';
+import { Location } from 'expo';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import MapView from 'react-native-maps';
+import MapView, { Marker } from 'react-native-maps';
 import { Container, Header, Content, Form, Item, Picker } from 'native-base';
+import firebaseLib from 'firebase/app';
+import 'firebase/firestore'
 
 import firebase from '../../config/firebase';
 import helpers from '../../config/helpers';
@@ -20,6 +23,7 @@ class Home extends Component {
         this.state = {
             region: null,
             isLoadingCircle: false,
+            locations: [],
             selectedCircle: ""
         }
     }
@@ -64,6 +68,8 @@ class Home extends Component {
 
     async componentDidMount() {
         try {
+            this.watchLocation();
+
             const { user } = this.props;
             this.props.navigation.setParams(
                 {
@@ -91,6 +97,28 @@ class Home extends Component {
             console.log("componentDidMount")
             alert(e.message);
         }
+    }
+
+    watchLocation = async () => {
+        const { user } = this.props;
+        
+        try {
+            this.interval = setInterval(async () => {
+                const location = await helpers.getLocation();
+
+                user.circles.forEach(u => {
+                    data = { latitude: location.latitude, longitude: location.longitude, timeStamp: Date.now() };
+                    firebase.updateNestedDocument("locations", u.circleId, "users", user.uid, data, true);
+                })
+            }, 10000);
+
+        } catch (e) {
+            alert(e.message);
+        }
+    }
+
+    getLiveLocation = (location) => {
+        console.log("live location =>", location)
     }
 
     openDrawer = () => {
@@ -129,6 +157,11 @@ class Home extends Component {
 
     onValueChange2(value) {
         if (value.circleId) {
+            if (this.listener) {
+                this.listener();
+
+            }
+
             this.getCircle(value.circleId);
         }
 
@@ -148,9 +181,25 @@ class Home extends Component {
                 isAdmin = true;
             }
 
+            this.listener = firebaseLib.firestore()
+                .collection("locations")
+                .doc(circleId)
+                .collection("users")
+                .onSnapshot(querySnapshot => {
+                    let locations = [];
+
+                    querySnapshot.forEach(q => {
+                        console.log("q.data() =>", q.data())
+                        if (q.data().user.uid !== user.uid) {
+                            locations.push(q.data())
+                        }
+                    })
+
+                    this.setState({ locations });
+                })
+
             this.setState({ isLoadingCircle: false, isAdmin, circleData: response });
         } catch (e) {
-            console.log("getCircle ")
             alert(e.message);
             this.setState({ isLoadingCircle: false });
         }
@@ -158,7 +207,7 @@ class Home extends Component {
 
     render() {
         const { user } = this.props;
-        const { region, selectedCircle } = this.state;
+        const { region, selectedCircle, locations } = this.state;
 
         return (
             <View style={GeneralStyles.flexFull}>
@@ -169,7 +218,15 @@ class Home extends Component {
                             style={GeneralStyles.flexFull}
                             initialRegion={this.state.region}
                             showsUserLocation
-                        />
+                        >
+                            {locations.map(marker => (
+                                <Marker
+                                    coordinate={{ latitude: marker.latitude, longitude: marker.longitude }}
+                                    title={marker.user.name}
+                                    description={marker.user.email}
+                                />
+                            ))}
+                        </MapView>
                         {
                             !!user.circles.length &&
                             <View style={[Styles.picker]}>
@@ -185,7 +242,7 @@ class Home extends Component {
                                         {
                                             user.circles.map(c => {
                                                 return (
-                                                    <Picker.Item label={c.circleName} value={c} />
+                                                    <Picker.Item key={`${Math.random()}`} label={c.circleName} value={c} />
                                                 )
                                             })
                                         }

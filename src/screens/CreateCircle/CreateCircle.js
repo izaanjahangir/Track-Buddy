@@ -63,7 +63,14 @@ class CreateCircle extends Component {
 
             const response = await firebase.addDocument("circles", data);
             const newCircle = { circleName, code, circleId: response.id };
-            await firebase.updateUserCircle(user.uid, newCircle);
+            const location = await helpers.getLocation();
+            const promises = [
+                await firebase.updateUserCircle(user.uid, newCircle),
+                await firebase.updateLocationCircle(response.id, user.uid, { ...location, timeStamp: Date.now(), user: { name: user.name, profilePicture: user.profilePicture, uid: user.uid, email: user.email } }),
+            ]
+
+            await Promise.all(promises);
+            
             prevCircles.push(newCircle);
 
             setUser({ ...user, circles: prevCircles });

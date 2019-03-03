@@ -120,6 +120,16 @@ const updateLocationCircle = async (circleId, uid, data) => {
         .set(data)
 }
 
+const updateNestedDocument = async (outerCollection, outerDocument, collection, document, data, merge) => {
+    return firebaseLib
+        .firestore()
+        .collection(outerCollection)
+        .doc(outerDocument)
+        .collection(collection)
+        .doc(document)
+        .set(data, { merge })
+}
+
 export default {
     loginWithFacebook,
     createUser,
@@ -130,5 +140,6 @@ export default {
     readCollection,
     readDocument,
     updateLocationCircle,
-    findCircle
+    findCircle,
+    updateNestedDocument
 }
