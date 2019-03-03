@@ -42,9 +42,9 @@ const createUser = async (data) => {
             return response.data();
         }
 
-        await firebaseLib.firestore().collection("users").doc(data.uid).set(data);
+        await firebaseLib.firestore().collection("users").doc(data.uid).set({ ...data, circles: [] });
 
-        return { ...data, isNew: true }
+        return { ...data, isNew: true, circles: [] }
     }
     catch (e) {
         throw e;
@@ -53,6 +53,16 @@ const createUser = async (data) => {
 
 const updateDocument = async (collection, document, data, merge) => {
     return firebaseLib.firestore().collection(collection).doc(document).set(data, { merge });
+}
+
+const updateUserCircle = async (document, circleId) => {
+    return firebaseLib.firestore()
+        .collection("users")
+        .doc(document)
+        .set(
+            { circles: firebaseLib.firestore.FieldValue.arrayUnion(circleId) },
+            { merge: true }
+        );
 }
 
 const addDocument = async (collection, data) => {
@@ -97,11 +107,11 @@ const readDocument = async (collection, document, returnType) => {
     }
 }
 
-
 export default {
     loginWithFacebook,
     createUser,
     updateDocument,
+    updateUserCircle,
     addDocument,
     uploadImage,
     readCollection,

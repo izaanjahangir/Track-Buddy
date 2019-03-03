@@ -1,5 +1,6 @@
 import { Toast } from 'native-base';
 import { Location, Permissions } from 'expo';
+const randomHex = require('crypto-random-hex');
 
 const showToast = (text, buttonText, type, duration = 3000) => {
     Toast.show({ text, buttonText, type, duration })
@@ -45,9 +46,14 @@ const getLocation = async () => {
     }
 }
 
+const createRandomString = () => {
+    return Math.random().toString(36).substring(7);
+}
+
 export default {
     showToast,
     makeBlobFromURI,
     extractFormatFromImageURI,
-    getLocation
+    getLocation,
+    createRandomString
 }
