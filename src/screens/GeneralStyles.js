@@ -48,5 +48,8 @@ export default StyleSheet.create({
         marginTop: variables.SMALL_PADDING_VERTICAL,
         marginBottom: variables.SMALL_PADDING_VERTICAL,
     },
-    textCenter: { textAlign: "center" }
+    textCenter: { textAlign: "center" },
+    headerStyle: {
+        backgroundColor: colors.primary,
+    },
 })

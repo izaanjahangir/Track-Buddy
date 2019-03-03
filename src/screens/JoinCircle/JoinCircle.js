@@ -12,42 +12,39 @@ import { setUser } from '../../redux/auth/action';
 
 import GeneralStyles from '../GeneralStyles';
 
-class AddMembers extends Component {
+class JoinCircle extends Component {
     constructor() {
         super();
 
         this.state = {
             isLoading: false,
-            phoneNumber: ""
+            code: ""
         }
     }
 
     static navigationOptions = {
-        title: "Add Members",
+        title: "Join Circle",
         headerStyle: GeneralStyles.headerStyle,
         headerTintColor: "#fff",
     }
 
-    addMember = () => {
-        console.log("add members")
+    join = () => {
+        console.log("join")
     }
 
     render() {
-        const { navigation } = this.props;
-        const { selectedCircle } = navigation.state.params;
-        const { phoneNumber } = this.state;
+        const { code } = this.state;
 
         return (
             <View style={GeneralStyles.flexFull}>
                 <View style={GeneralStyles.container}>
                     <Content style={{ marginTop: 50 }}>
-                        <Text>Enter phone number to add member:</Text>
-                        <Text style={GeneralStyles.textCenter}>Circle: {selectedCircle.circleName}</Text>
+                        <Text>Enter your circle code to join:</Text>
                         <Item regular style={GeneralStyles.smallMarginY}>
-                            <Input keyboardType="numeric" placeholder='Enter phone number' value={phoneNumber} onChangeText={(phoneNumber) => this.setState({ phoneNumber })} />
+                            <Input keyboardType="numeric" placeholder='Enter circle code' value={code} onChangeText={(phoneNumber) => this.setState({ phoneNumber })} />
                         </Item>
                         <View style={GeneralStyles.smallMarginY}>
-                            <CustomButton text="Add Member" onPress={this.addMember} />
+                            <CustomButton text="Join" onPress={this.join} />
                         </View>
                     </Content>
                 </View>
@@ -67,4 +64,4 @@ const mapDispatchToProps = (dispatch) =>
         setUser,
     }, dispatch)
 
-export default connect(mapStateToProps, mapDispatchToProps)(AddMembers);
+export default connect(mapStateToProps, mapDispatchToProps)(JoinCircle);

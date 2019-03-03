@@ -25,11 +25,13 @@ class Home extends Component {
     static navigationOptions = ({ navigation }) => {
         return {
             headerTitle: "Home",
+            headerStyle: GeneralStyles.headerStyle,
+            headerTintColor: "#fff",
             headerLeft: (
                 <TouchableOpacity style={{ marginLeft: 10 }} onPress={navigation.getParam('openDrawer')}>
                     <Image
                         source={require("../../assets/menu-icon.png")}
-                        style={{ width: 30, height: 30 }}
+                        style={{ width: 35, height: 35 }}
                     />
                 </TouchableOpacity>
             ),
@@ -47,6 +49,12 @@ class Home extends Component {
                             style={{ width: 30, height: 30 }}
                         />
                     </TouchableOpacity>
+                    <TouchableOpacity style={{ marginRight: 10 }} onPress={navigation.getParam('navigateToJoin')}>
+                        <Image
+                            source={require("../../assets/join.png")}
+                            style={{ width: 30, height: 30 }}
+                        />
+                    </TouchableOpacity>
                 </View>
             ),
         };
@@ -59,7 +67,8 @@ class Home extends Component {
                 {
                     openDrawer: this.openDrawer,
                     navigateToCreateCircle: this.navigateToCreateCircle,
-                    navigateToAddMembers: this.navigateToAddMembers
+                    navigateToAddMembers: this.navigateToAddMembers,
+                    navigateToJoin: this.navigateToJoin
                 });
 
             const location = await helpers.getLocation();
@@ -98,6 +107,10 @@ class Home extends Component {
         }
 
         this.props.navigation.navigate("AddMembers", { selectedCircle })
+    }
+
+    navigateToJoin = () => {
+        this.props.navigation.navigate("JoinCircle")
     }
 
     onValueChange2(value) {

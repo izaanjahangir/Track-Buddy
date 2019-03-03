@@ -26,7 +26,9 @@ class CreateCircle extends Component {
     }
 
     static navigationOptions = {
-        title: "Create Circle"
+        title: "Create Circle",
+        headerStyle: GeneralStyles.headerStyle,
+        headerTintColor: "#fff",
     }
 
     async componentDidMount() {

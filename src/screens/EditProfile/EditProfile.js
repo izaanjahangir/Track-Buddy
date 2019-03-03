@@ -34,11 +34,13 @@ class EditProfile extends Component {
     static navigationOptions = ({ navigation }) => {
         return {
             headerTitle: "Edit Profile",
+            headerStyle: GeneralStyles.headerStyle,
+            headerTintColor: "#fff",
             headerLeft: (
                 <TouchableOpacity style={{ marginLeft: 10 }} onPress={navigation.getParam('openDrawer')}>
                     <Image
                         source={require("../../assets/menu-icon.png")}
-                        style={{ width: 30, height: 30 }}
+                        style={{ width: 35, height: 35 }}
                     />
                 </TouchableOpacity>
             ),
