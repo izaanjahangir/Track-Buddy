@@ -110,7 +110,7 @@ class Home extends Component {
                     data = { latitude: location.latitude, longitude: location.longitude, timeStamp: Date.now() };
                     firebase.updateNestedDocument("locations", u.circleId, "users", user.uid, data, true);
                 })
-            }, 10000);
+            }, 60000);
 
         } catch (e) {
             alert(e.message);
