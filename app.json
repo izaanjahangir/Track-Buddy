@@ -22,7 +22,7 @@
       "**/*"
     ],
     "android": {
-      "icon": "./src/assets/icons/app-icon.png",
+      "icon": "./src/assets/app-icon.png",
       "permissions": [
         "ACCESS_COARSE_LOCATION",
         "ACCESS_FINE_LOCATION",
