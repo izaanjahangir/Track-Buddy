@@ -2,12 +2,22 @@ import React, { Component } from 'react'
 import { Text, View, Image, TouchableOpacity } from 'react-native'
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import MapView from 'react-native-maps';
 
+import helpers from '../../config/helpers';
 import { setUser } from '../../redux/auth/action';
 
 import GeneralStyles from '../GeneralStyles';
 
 class Home extends Component {
+    constructor() {
+        super();
+
+        this.state = {
+            region: null
+        }
+    }
+
     static navigationOptions = ({ navigation }) => {
         return {
             headerTitle: "Home",
@@ -22,12 +32,27 @@ class Home extends Component {
         };
     }
 
-    componentDidMount() {
-        const { user } = this.props;
-        this.props.navigation.setParams({ openDrawer: this.openDrawer });
+    async componentDidMount() {
+        try {
+            const { user } = this.props;
+            this.props.navigation.setParams({ openDrawer: this.openDrawer });
 
-        if (user.isNew) {
-            this.props.navigation.navigate("EditProfile");
+            const location = await helpers.getLocation();
+
+            const region = {
+                ...location,
+                latitudeDelta: 0.0922,
+                longitudeDelta: 0.0421,
+            }
+
+            this.setState({ region })
+
+            if (user.isNew) {
+                this.props.navigation.navigate("EditProfile");
+            }
+
+        } catch (e) {
+            alert(e.message);
         }
     }
 
@@ -36,9 +61,18 @@ class Home extends Component {
     }
 
     render() {
+        const { region } = this.state;
+
         return (
-            <View style={[GeneralStyles.container]}>
-                <Text>Home</Text>
+            <View style={GeneralStyles.flexFull}>
+                {
+                    region &&
+                    <MapView
+                        style={GeneralStyles.flexFull}
+                        initialRegion={this.state.region}
+                        showsUserLocation
+                    />
+                }
             </View>
         )
     }

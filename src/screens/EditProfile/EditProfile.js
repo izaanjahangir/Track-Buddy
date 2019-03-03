@@ -92,7 +92,7 @@ class EditProfile extends Component {
                 profilePicture = url;
             }
 
-            const data = { profilePicture, email, name, phoneNumber };
+            const data = { profilePicture, email, name, phoneNumber, isNew: false };
 
             await firebase.updateDocument(collection, document, data, true);
 
