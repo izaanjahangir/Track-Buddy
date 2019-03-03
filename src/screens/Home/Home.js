@@ -34,12 +34,20 @@ class Home extends Component {
                 </TouchableOpacity>
             ),
             headerRight: (
-                <TouchableOpacity style={{ marginRight: 10 }} onPress={navigation.getParam('navigateToCreateCircle')}>
-                    <Image
-                        source={require("../../assets/add.png")}
-                        style={{ width: 30, height: 30 }}
-                    />
-                </TouchableOpacity>
+                <View style={{ flexDirection: "row" }}>
+                    <TouchableOpacity style={{ marginRight: 10 }} onPress={navigation.getParam('navigateToAddMembers')}>
+                        <Image
+                            source={require("../../assets/person.png")}
+                            style={{ width: 30, height: 30 }}
+                        />
+                    </TouchableOpacity>
+                    <TouchableOpacity style={{ marginRight: 10 }} onPress={navigation.getParam('navigateToCreateCircle')}>
+                        <Image
+                            source={require("../../assets/add.png")}
+                            style={{ width: 30, height: 30 }}
+                        />
+                    </TouchableOpacity>
+                </View>
             ),
         };
     }
@@ -47,7 +55,12 @@ class Home extends Component {
     async componentDidMount() {
         try {
             const { user } = this.props;
-            this.props.navigation.setParams({ openDrawer: this.openDrawer, navigateToCreateCircle: this.navigateToCreateCircle });
+            this.props.navigation.setParams(
+                {
+                    openDrawer: this.openDrawer,
+                    navigateToCreateCircle: this.navigateToCreateCircle,
+                    navigateToAddMembers: this.navigateToAddMembers
+                });
 
             const location = await helpers.getLocation();
 
@@ -76,15 +89,26 @@ class Home extends Component {
         this.props.navigation.navigate("CreateCircle")
     }
 
+    navigateToAddMembers = () => {
+        const { user } = this.props
+        let { selectedCircle } = this.state;
+
+        if (!selectedCircle) {
+            selectedCircle = user.circles[0]
+        }
+
+        this.props.navigation.navigate("AddMembers", { selectedCircle })
+    }
+
     onValueChange2(value) {
         this.setState({
-            selected2: value
+            selectedCircle: value
         });
     }
 
     render() {
         const { user } = this.props;
-        const { region } = this.state;
+        const { region, selectedCircle } = this.state;
 
         return (
             <View style={GeneralStyles.flexFull}>
@@ -104,13 +128,13 @@ class Home extends Component {
                                         mode="dropdown"
                                         style={{ width: undefined }}
                                         placeholderIconColor="#007aff"
-                                        selectedValue={this.state.selected2}
+                                        selectedValue={selectedCircle}
                                         onValueChange={this.onValueChange2.bind(this)}
                                     >
                                         {
                                             user.circles.map(c => {
                                                 return (
-                                                    <Picker.Item label={c.circleName} value={c.circleId} />
+                                                    <Picker.Item label={c.circleName} value={c} />
                                                 )
                                             })
                                         }

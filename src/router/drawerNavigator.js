@@ -9,9 +9,10 @@ import Drawer from '../components/Drawer';
 import variables from '../config/variables';
 
 import CreateCircle from '../screens/CreateCircle/CreateCircle';
+import AddMembers from '../screens/AddMembers/AddMembers';
 
 export default drawer = createDrawerNavigator({
-    Home: createStackNavigator({ Home, CreateCircle }),
+    Home: createStackNavigator({ Home, CreateCircle, AddMembers }),
     EditProfile: createStackNavigator({ EditProfile }),
 }, {
         contentComponent: Drawer,

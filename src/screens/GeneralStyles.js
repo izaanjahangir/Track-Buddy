@@ -47,5 +47,6 @@ export default StyleSheet.create({
     smallPaddingY: {
         marginTop: variables.SMALL_PADDING_VERTICAL,
         marginBottom: variables.SMALL_PADDING_VERTICAL,
-    }
+    },
+    textCenter: { textAlign: "center" }
 })
