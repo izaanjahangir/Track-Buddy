@@ -50,10 +50,22 @@ const createRandomString = () => {
     return Math.random().toString(36).substring(7);
 }
 
+const sendMessage = (data) => {
+    return fetch("https://track-buddy.herokuapp.com/sms", {
+        headers: {
+            "Content-Type": "application/json",
+            "Accept": "application/json",
+        },
+        body: JSON.stringify(data),
+        method: "POST"
+    })
+}
+
 export default {
     showToast,
     makeBlobFromURI,
     extractFormatFromImageURI,
     getLocation,
-    createRandomString
+    createRandomString,
+    sendMessage
 }
