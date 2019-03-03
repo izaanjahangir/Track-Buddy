@@ -50,6 +50,7 @@ class AddMembers extends Component {
                 { text: 'Ok', onPress: () => this.props.navigation.navigate("Home") },
             ])
         } catch (e) {
+            console.log("addMember")
             alert(e.message);
             this.setState({ isLoading: false });
         }

@@ -104,7 +104,7 @@ class EditProfile extends Component {
             alert("Profile Updated");
         }
         catch (e) {
-            console.log("e =>", e);
+            console.log("saveChanges");
             alert(e.message);
         }
 

@@ -107,6 +107,19 @@ const readDocument = async (collection, document, returnType) => {
     }
 }
 
+const findCircle = (code) => {
+    return firebaseLib.firestore().collection("circles").where("code", "==", code).get();
+}
+
+const updateLocationCircle = async (circleId, uid, data) => {
+    return firebaseLib.firestore()
+        .collection("locations")
+        .doc(circleId)
+        .collection("users")
+        .doc(uid)
+        .set(data)
+}
+
 export default {
     loginWithFacebook,
     createUser,
@@ -116,4 +129,6 @@ export default {
     uploadImage,
     readCollection,
     readDocument,
+    updateLocationCircle,
+    findCircle
 }

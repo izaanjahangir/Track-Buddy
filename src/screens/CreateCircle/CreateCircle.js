@@ -70,6 +70,7 @@ class CreateCircle extends Component {
 
             this.setState({ isLoading: false, code });
         } catch (e) {
+            console.log("createCircle")
             alert(e.message);
             this.setState({ isLoading: false });
         }

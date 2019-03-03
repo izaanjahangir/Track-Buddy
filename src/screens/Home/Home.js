@@ -18,7 +18,9 @@ class Home extends Component {
         super();
 
         this.state = {
-            region: null
+            region: null,
+            isLoadingCircle: false,
+            selectedCircle: ""
         }
     }
 
@@ -86,6 +88,7 @@ class Home extends Component {
             }
 
         } catch (e) {
+            console.log("componentDidMount")
             alert(e.message);
         }
     }
@@ -100,10 +103,21 @@ class Home extends Component {
 
     navigateToAddMembers = () => {
         const { user } = this.props
-        let { selectedCircle } = this.state;
+        let { selectedCircle, isLoadingCircle, isAdmin } = this.state;
 
         if (!selectedCircle) {
-            selectedCircle = user.circles[0]
+            alert("Please select a circle first!");
+            return
+        }
+
+        if (isLoadingCircle) {
+            alert("Please wait a moment, we are fetching data");
+            return
+        }
+
+        if (!isAdmin) {
+            alert("Sorry! you are not an admin of this circle");
+            return;
         }
 
         this.props.navigation.navigate("AddMembers", { selectedCircle })
@@ -114,9 +128,32 @@ class Home extends Component {
     }
 
     onValueChange2(value) {
+        if (value.circleId) {
+            this.getCircle(value.circleId);
+        }
+
         this.setState({
             selectedCircle: value
         });
+    }
+
+    getCircle = async (circleId) => {
+        try {
+            this.setState({ isLoadingCircle: true });
+            const { user } = this.props;
+            const response = await firebase.readDocument("circles", circleId, "data");
+            let isAdmin = false;
+
+            if (response && response.admins.includes(user.uid)) {
+                isAdmin = true;
+            }
+
+            this.setState({ isLoadingCircle: false, isAdmin, circleData: response });
+        } catch (e) {
+            console.log("getCircle ")
+            alert(e.message);
+            this.setState({ isLoadingCircle: false });
+        }
     }
 
     render() {
@@ -144,6 +181,7 @@ class Home extends Component {
                                         selectedValue={selectedCircle}
                                         onValueChange={this.onValueChange2.bind(this)}
                                     >
+                                        <Picker.Item label="Select Circle" value="" />
                                         {
                                             user.circles.map(c => {
                                                 return (
