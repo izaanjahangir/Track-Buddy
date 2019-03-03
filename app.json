@@ -21,6 +21,19 @@
     "assetBundlePatterns": [
       "**/*"
     ],
+    "android": {
+      "icon": "./src/assets/icons/app-icon.png",
+      "permissions": [
+        "ACCESS_COARSE_LOCATION",
+        "ACCESS_FINE_LOCATION",
+        "CAMERA",
+        "CAMERA_ROLL",
+        "READ_INTERNAL_STORAGE",
+        "READ_EXTERNAL_STORAGE",
+        "WRITE_EXTERNAL_STORAGE"
+      ],
+      "package": "com.saylani.trackbuddy"
+    },
     "ios": {
       "supportsTablet": true
     },
