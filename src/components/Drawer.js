@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Text, View, Image, StyleSheet } from 'react-native'
+import { Text, View, Image, StyleSheet, TouchableOpacity } from 'react-native'
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Button } from 'native-base';
@@ -33,10 +33,26 @@ class Drawer extends Component {
             <View style={[GeneralStyles.flexFull]}>
                 <View style={[GeneralStyles.bgPrimary, GeneralStyles.perfectlyCentered, Styles.drawerTopArea]}>
                     <Image source={{ uri: user.profilePicture }} style={Styles.avatar} />
-                    <Text style={[GeneralStyles.smallText, Styles.avatarText]}>{user.name}</Text>
+                    <Text style={[GeneralStyles.smallText, Styles.avatarText, GeneralStyles.textWhite]}>{user.name}</Text>
                 </View>
                 <View style={GeneralStyles.flexFull}>
-                    <Button onPress={this.navigateToScreen.bind(this, "Home")} light block>
+                    <View style={GeneralStyles.flexRow}>
+                        <TouchableOpacity onPress={this.navigateToScreen.bind(this, "Home")} style={GeneralStyles.fullWidthBtn}>
+                            <Text>Home</Text>
+                        </TouchableOpacity>
+                    </View>
+                    <View onPress={this.navigateToScreen.bind(this, "EditProfile")} style={GeneralStyles.flexRow}>
+                        <TouchableOpacity style={GeneralStyles.fullWidthBtn}>
+                            <Text>Edit Profile</Text>
+                        </TouchableOpacity>
+                    </View>
+                    <View style={GeneralStyles.flexRow}>
+                        <TouchableOpacity onPress={this.logout} style={GeneralStyles.fullWidthBtn}>
+                            <Text>Log out</Text>
+                        </TouchableOpacity>
+                    </View>
+
+                    {/* <Button onPress={this.navigateToScreen.bind(this, "Home")} light block>
                         <Text>Home</Text>
                     </Button>
                     <Button onPress={this.navigateToScreen.bind(this, "EditProfile")} light block>
@@ -44,7 +60,7 @@ class Drawer extends Component {
                     </Button>
                     <Button onPress={this.logout} light block>
                         <Text>Log out</Text>
-                    </Button>
+                    </Button> */}
                 </View>
             </View >
         )

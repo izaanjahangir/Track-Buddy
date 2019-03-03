@@ -11,6 +11,7 @@ export default StyleSheet.create({
     containerPadding: {
         paddingHorizontal: variables.WINDOW_WIDTH * 0.05,
     },
+    flexRow: { flexDirection: "row" },
     flexFull: {
         flex: 1
     },
@@ -49,7 +50,14 @@ export default StyleSheet.create({
         marginBottom: variables.SMALL_PADDING_VERTICAL,
     },
     textCenter: { textAlign: "center" },
+    textWhite: { color: "white" },
     headerStyle: {
         backgroundColor: colors.primary,
     },
+    fullWidthBtn: {
+        flex: 1,
+        height: 45,
+        justifyContent: "center",
+        alignItems: "center",
+    }
 })
